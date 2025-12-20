@@ -1,21 +1,28 @@
-let equalPressed = 0;
+//tracks whether enter was pressed
+let enterPressed = 0;
+//get HTML elements with the btn class
 let buttonInput = document.querySelectorAll(".btn");
+//read from and write to the display input field
 let input = document.getElementById("display");
-let equal = document.getElementById("enter");
+//get enter, clear, and delete buttons
+let enter = document.getElementById("enter");
 let clear = document.getElementById("clear");
 let del = document.getElementById("del");
 
 window.onload = () => {
+    // Clear the input display on page load by setting its value to an empty string
     input.value = "";
 };
 
 buttonInput.forEach((buttonClass) => {
     buttonClass.addEventListener("click", (event) => {
-        if (equalPressed === 1) {
-            equalPressed = 0;
+        // If enter was pressed previously, clear the input for new entry
+        if (enterPressed === 1) {
+            enterPressed = 0;
             input.value = "";
         }
         
+        //get the buttonID and value from HTML elements
         let buttonId = event.target.id;
         let value = event.target.textContent.trim();
 
@@ -25,14 +32,15 @@ buttonInput.forEach((buttonClass) => {
         }
 
         // For these buttons, skip them too
-        if (["2nd", "mode", "table", "on", "prb", "data", "log", "ln", "n/d", "x*10^n", "x^y z t"].includes(buttonId)) {
+        // Eventually will add their functionality
+        if (["2nd", "mode", "table", "on", "prb", "data", "log", "ln", "n/d", "x*10^n", "x^y z t", "x^2"].includes(buttonId)) {
             return;
         }
 
         // Append the button's value to the input display
         input.value += value;
         console.log("Added:", value, "Display:", input.value);
-    });
+    }); 
 });
 
 // Clear the input when clear button is pressed
@@ -46,8 +54,8 @@ del.addEventListener("click", () => {
 });
 
 // Evaluate the expression when equal button is pressed
-equal.addEventListener("click", () => {
-    equalPressed = 1; //truthy value to indicate equal was pressed
+enter.addEventListener("click", () => {
+    enterPressed = 1; //truthy value to indicate equal was pressed
     let inputValue = input.value;
 
     try {
@@ -59,6 +67,7 @@ equal.addEventListener("click", () => {
             .replace(/sin\(([^)]+)\)/g, (_, num) => `Math.sin(${num} * Math.PI / 180)`)
             .replace(/cos\(([^)]+)\)/g, (_, num) => `Math.cos(${num} * Math.PI / 180)`)
             .replace(/tan\(([^)]+)\)/g, (_, num) => `Math.tan(${num} * Math.PI / 180)`)
+            .replaceAll("π", "Math.PI")
             .replaceAll("^2", "**2")
             .replaceAll("^3", "**3")
             .replaceAll("√", "Math.sqrt")
