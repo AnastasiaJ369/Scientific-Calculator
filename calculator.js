@@ -33,7 +33,7 @@ buttonInput.forEach((buttonClass) => {
 
         // For these buttons, skip them too
         // Eventually will add their functionality
-        if (["2nd", "mode", "table", "on", "prb", "data", "log", "ln", "n/d", "x*10^n", "x^y z t", "x^2"].includes(buttonId)) {
+        if (["2nd", "mode", "table", "on", "prb", "data", "log", "ln", "n/d", "x*10^n", "∛", "x^2"].includes(buttonId)) {
             return;
         }
 
@@ -67,11 +67,12 @@ enter.addEventListener("click", () => {
             .replace(/sin\(([^)]+)\)/g, (_, num) => `Math.sin(${num} * Math.PI / 180)`)
             .replace(/cos\(([^)]+)\)/g, (_, num) => `Math.cos(${num} * Math.PI / 180)`)
             .replace(/tan\(([^)]+)\)/g, (_, num) => `Math.tan(${num} * Math.PI / 180)`)
+            //pi needs to be the same symbol as in the HTML file. It was \(\pi \) before but now is just π)
             .replaceAll("π", "Math.PI")
-            .replaceAll("^2", "**2")
-            .replaceAll("^3", "**3")
-            .replaceAll("√", "Math.sqrt")
-            .replaceAll("∛", "Math.cbrt")
+            .replaceAll("√", "Math.sqrt") //Use parentheses for evlauation
+            //.replaceAll("^2", "**2")
+            //.replaceAll("^3", "**3")
+            .replaceAll("∛", "Math.cbrt") //Use parentheses for evaluation
             .replace(/(\d+)!/g, (_, num) => factorial(Number(num)));
 
         // Use eval to compute the result of the above expressions
