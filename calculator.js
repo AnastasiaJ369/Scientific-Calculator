@@ -33,7 +33,7 @@ buttonInput.forEach((buttonClass) => {
 
         // For these buttons, skip them too
         // Eventually will add their functionality
-        if (["2nd", "mode", "table", "on", "prb", "data", "log", "ln", "n/d", "x*10^n", "∛", "x^2"].includes(buttonId)) {
+        if (["2nd", "mode", "table", "on", "prb", "data", "log", "ln", "n/d", "x*10^n", "x^2"].includes(buttonId)) {
             return;
         }
 
@@ -55,7 +55,7 @@ del.addEventListener("click", () => {
 
 // Evaluate the expression when equal button is pressed
 enter.addEventListener("click", () => {
-    enterPressed = 1; //truthy value to indicate equal was pressed
+    enterPressed = 1; //truthy value to indicate enter was pressed
     let inputValue = input.value;
 
     try {
@@ -64,23 +64,22 @@ enter.addEventListener("click", () => {
             .replaceAll("×", "*")
             .replaceAll("÷", "/")
             .replaceAll("−", "-")
-            .replace(/sin\(([^)]+)\)/g, (_, num) => `Math.sin(${num} * Math.PI / 180)`)
-            .replace(/cos\(([^)]+)\)/g, (_, num) => `Math.cos(${num} * Math.PI / 180)`)
-            .replace(/tan\(([^)]+)\)/g, (_, num) => `Math.tan(${num} * Math.PI / 180)`)
-            //pi needs to be the same symbol as in the HTML file. It was \(\pi \) before but now is just π)
-            .replaceAll("π", "Math.PI")
+            .replaceAll("sin", "Math.sin")
+            .replaceAll("cos", "Math.cos")
+            .replaceAll("tan", "Math.tan")
+            .replaceAll("π", "Math.PI") 
             .replaceAll("√", "Math.sqrt") //Use parentheses for evlauation
-            //.replaceAll("^2", "**2")
-            //.replaceAll("^3", "**3")
+            .replaceAll("^", "**")
             .replaceAll("∛", "Math.cbrt") //Use parentheses for evaluation
-            .replace(/(\d+)!/g, (_, num) => factorial(Number(num)));
+            .replaceAll(/(\d+)!/g, (_, num) => factorial(Number(num))); //Factorial function is defined below
 
         // Use eval to compute the result of the above expressions
+        // If result is NaN or not finite, throw an error
         let result = eval(expression); 
         if (Number.isNaN(result) || !Number.isFinite(result)) {
             throw new Error("Invalid expression");
         }
-        // Display result rounded to 2 decimal places if not an integer
+        // Display result rounded to 2 decimal places if not a whole number
         input.value = Number.isInteger(result) ? result : result.toFixed(2);
     }
     //alerts user if error occurs during evaluation
@@ -92,6 +91,12 @@ enter.addEventListener("click", () => {
 
 // Factorial function
 function factorial(n) {
-    if (n === 0 || n === 1) return 1;
-    return n * factorial(n - 1);
+    if (n === 0 || n === 1) {
+        return 1;
+    }
+    let result = 1;
+    for (let i = 2; i <= n; i++){
+        result *= i;
+    }
+    return result;
 }
