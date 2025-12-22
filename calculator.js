@@ -70,8 +70,12 @@ enter.addEventListener("click", () => {
             .replaceAll("π", "Math.PI") 
             .replaceAll("√", "Math.sqrt") //Use parentheses for evlauation
             .replaceAll("^", "**")
-            .replaceAll("∛", "Math.cbrt") //Use parentheses for evaluation
-            .replaceAll(/(\d+)!/g, (_, num) => factorial(Number(num))); //Factorial function is defined below
+            .replaceAll("∛", "Math.cbrt"); //Use parentheses for evaluation
+        
+        // Handle factorial separately
+        expression = expression.replace(/(\d+)!/g, (match, num) => {
+            return factorialize(Number(num));
+        });
 
         // Use eval to compute the result of the above expressions
         // If result is NaN or not finite, throw an error
@@ -90,13 +94,10 @@ enter.addEventListener("click", () => {
 });
 
 // Factorial function
-function factorial(n) {
-    if (n === 0 || n === 1) {
-        return 1;
+function factorialize(num) {
+    let total = 1;
+    for (let i = 1; i <= num; i++) {
+        total *= i;
     }
-    let result = 1;
-    for (let i = 2; i <= n; i++){
-        result *= i;
-    }
-    return result;
+    return total;
 }
