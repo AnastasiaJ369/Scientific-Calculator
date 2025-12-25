@@ -33,7 +33,7 @@ buttonInput.forEach((buttonClass) => {
 
         // For these buttons, skip them too
         // Eventually will add their functionality
-        if (["2nd", "mode", "table", "on", "prb", "data", "log", "ln", "n/d", "x*10^n", "x^2"].includes(buttonId)) {
+        if (["2nd", "mode", "table", "on", "prb", "data", "x²"].includes(buttonId)) {
             return;
         }
 
@@ -53,6 +53,7 @@ del.addEventListener("click", () => {
     input.value = input.value.slice(0, -1);
 });
 
+
 // Evaluate the expression when equal button is pressed
 enter.addEventListener("click", () => {
     enterPressed = 1; //truthy value to indicate enter was pressed
@@ -70,11 +71,24 @@ enter.addEventListener("click", () => {
             .replaceAll("π", "Math.PI") 
             .replaceAll("√", "Math.sqrt") //Use parentheses for evlauation
             .replaceAll("^", "**")
-            .replaceAll("∛", "Math.cbrt"); //Use parentheses for evaluation
+            .replaceAll("∛", "Math.cbrt") //Use parentheses for evaluation
+            //.replace("sin⁻¹", "Math.asin")
+            //.replace("cos⁻¹", "Math.acos")
+            //.replace("tan⁻¹", "Math.atan")
+            //.replaceAll("ln", "Math.log")
+            .replaceAll("log", "Math.log10");
         
-        // Handle factorial separately
+        // Handle factorial n! (button is labeled as !)
         expression = expression.replace(/(\d+)!/g, (match, num) => {
             return factorialize(Number(num));
+        });
+        // Handle inverse function x⁻¹ (button is labeled as ⁻¹)
+        expression = expression.replace(/(\d+)⁻¹/g, (match, num) => {
+            return inverse(Number(num));
+        });
+        // Handle square function x² (button is labeled as ²)
+        expression = expression.replace(/(\d+)²/g, (match, num) => {
+            return Number(num) * Number(num);
         });
 
         // Use eval to compute the result of the above expressions
@@ -100,4 +114,12 @@ function factorialize(num) {
         total *= i;
     }
     return total;
+}
+// Inverse function
+function inverse(x) {
+    if (x===0) {
+        throw new Error("Undefined");
+    } else {
+        return 1/x;
+    }
 }
