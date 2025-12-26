@@ -31,9 +31,8 @@ buttonInput.forEach((buttonClass) => {
             return;
         }
 
-        // For these buttons, skip them too
-        // Eventually will add their functionality
-        if (["2nd", "mode", "table", "on", "prb", "data", "x²"].includes(buttonId)) {
+        // Non-functioning buttons
+        if (["2nd", "mode", "table", "on", "prb", "data"].includes(buttonId)) {
             return;
         }
 
@@ -76,19 +75,21 @@ enter.addEventListener("click", () => {
             //.replace("cos⁻¹", "Math.acos")
             //.replace("tan⁻¹", "Math.atan")
             //.replaceAll("ln", "Math.log")
-            .replaceAll("log", "Math.log10");
+            .replaceAll("log", "Math.log10")
+            .replaceAll("%", "/100");
         
+
+        // Handle square function x² (button is labeled as ²)
+        expression = expression.replace(/(\d+)x²/g, (match, num) => {
+            return Number(num) * Number(num);
+        });
         // Handle factorial n! (button is labeled as !)
         expression = expression.replace(/(\d+)!/g, (match, num) => {
             return factorialize(Number(num));
         });
         // Handle inverse function x⁻¹ (button is labeled as ⁻¹)
-        expression = expression.replace(/(\d+)⁻¹/g, (match, num) => {
+        expression = expression.replace(/(\d+)x⁻¹/g, (match, num) => {
             return inverse(Number(num));
-        });
-        // Handle square function x² (button is labeled as ²)
-        expression = expression.replace(/(\d+)²/g, (match, num) => {
-            return Number(num) * Number(num);
         });
 
         // Use eval to compute the result of the above expressions
