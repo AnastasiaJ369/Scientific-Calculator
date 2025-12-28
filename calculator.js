@@ -64,6 +64,10 @@ enter.addEventListener("click", () => {
             .replaceAll("×", "*")
             .replaceAll("÷", "/")
             .replaceAll("−", "-")
+            //.replace("sin⁻¹", "Math.asin")
+            //.replace("cos⁻¹", "Math.acos")
+            //.replace("tan⁻¹", "Math.atan")
+            //.replaceAll("ln", "Math.log")
             .replaceAll("sin", "Math.sin")
             .replaceAll("cos", "Math.cos")
             .replaceAll("tan", "Math.tan")
@@ -71,15 +75,11 @@ enter.addEventListener("click", () => {
             .replaceAll("√", "Math.sqrt") //Use parentheses for evlauation
             .replaceAll("^", "**")
             .replaceAll("∛", "Math.cbrt") //Use parentheses for evaluation
-            //.replace("sin⁻¹", "Math.asin")
-            //.replace("cos⁻¹", "Math.acos")
-            //.replace("tan⁻¹", "Math.atan")
-            //.replaceAll("ln", "Math.log")
             .replaceAll("log", "Math.log10")
             .replaceAll("%", "/100");
         
 
-        // Handle square function x² (button is labeled as ²)
+        // Handle square function x² 
         expression = expression.replace(/(\d+)x²/g, (match, num) => {
             return Number(num) * Number(num);
         });
@@ -87,7 +87,7 @@ enter.addEventListener("click", () => {
         expression = expression.replace(/(\d+)!/g, (match, num) => {
             return factorialize(Number(num));
         });
-        // Handle inverse function x⁻¹ (button is labeled as ⁻¹)
+        // Handle inverse function x⁻¹
         expression = expression.replace(/(\d+)x⁻¹/g, (match, num) => {
             return inverse(Number(num));
         });
