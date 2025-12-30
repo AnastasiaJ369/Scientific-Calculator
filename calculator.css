@@ -75,7 +75,7 @@ header {
     transform: translateX(-50%);
     width: 300px;
     height: 110px;
-    background-color: #e6e6e6;
+    background-color: #949292;
 }
 
 .display-screen input {
@@ -87,7 +87,7 @@ header {
     font-weight: bold;
     padding: 10px;
     box-sizing: border-box;
-    background-color: #e6e6e6;
+    background-color: #b4b0b0;
 }
 
 .buttons-container1 {

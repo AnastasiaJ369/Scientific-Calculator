@@ -32,7 +32,7 @@ buttonInput.forEach((buttonClass) => {
         }
 
         // Non-functioning buttons
-        if (["2nd", "mode", "table", "on", "prb", "data"].includes(buttonId)) {
+        if (["2nd", "mode", "table", "on", "e^x", "data", "sin⁻¹", "cos⁻¹","tan⁻¹", "ln"].includes(buttonId)) {
             return;
         }
 
@@ -64,10 +64,6 @@ enter.addEventListener("click", () => {
             .replaceAll("×", "*")
             .replaceAll("÷", "/")
             .replaceAll("−", "-")
-            //.replace("sin⁻¹", "Math.asin")
-            //.replace("cos⁻¹", "Math.acos")
-            //.replace("tan⁻¹", "Math.atan")
-            //.replaceAll("ln", "Math.log")
             .replaceAll("sin", "Math.sin")
             .replaceAll("cos", "Math.cos")
             .replaceAll("tan", "Math.tan")
